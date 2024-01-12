@@ -26,7 +26,7 @@
 <body>
 
 <div class="login-container">
-  <h2 class="text-center mb-4">간단한 게시판 프로젝트</h2>
+  <h2 class="text-center mb-4">로그인</h2>
 
   <form th:action="@{/login}" method="post" class="login-form">
     <div class="form-group">
@@ -42,7 +42,7 @@
     <button type="submit" class="btn btn-primary btn-block">Login</button>
   </form>
 
-  <p class="text-center"><a href="/signup">회원가입</a></p>
+  <p class="text-center"><a th:onclick="|location.href='@{/signup}'|">회원가입</a></p>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
