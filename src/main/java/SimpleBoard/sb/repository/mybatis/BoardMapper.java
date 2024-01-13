@@ -21,4 +21,6 @@ public interface BoardMapper {
     void delete(@Param("id") Long id);
 
     List<Board> findAll();
+    List<Board> findPaginatedPosts(@Param("pageSize")int page, @Param("offset")int size);
+    int getTotalPosts();
 }

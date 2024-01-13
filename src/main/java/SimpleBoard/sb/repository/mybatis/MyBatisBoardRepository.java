@@ -21,7 +21,7 @@ public class MyBatisBoardRepository implements BoardRepository {
 
     @Override
     public Optional<Board> findById(Long id) {
-        return Optional.empty();
+        return boardMapper.findById(id);
     }
 
     @Override
@@ -38,4 +38,13 @@ public class MyBatisBoardRepository implements BoardRepository {
     public List<Board> findAll() {
         return boardMapper.findAll();
     }
+
+    public List<Board> findPaginatedPosts(int page, int size) {
+        return boardMapper.findPaginatedPosts(page, size);
+    }
+    @Override
+    public int getTotalPosts() {
+        return boardMapper.getTotalPosts();
+    }
+    ;
 }

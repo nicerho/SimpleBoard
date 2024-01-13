@@ -15,4 +15,6 @@ public interface BoardRepository {
 
     void update(Long id, BoardUpdateDto updateDto);
     List<Board> findAll();
+    List<Board> findPaginatedPosts(int page, int size);
+    int getTotalPosts();
 }

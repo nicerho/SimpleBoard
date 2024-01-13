@@ -35,13 +35,29 @@
         <!-- 게시글 아이템 -->
         <div th:each="post : ${posts}" class="card post-item">
             <div class="card-body">
-                <h5 class="card-title"><a th:href="@{'/board/'+ ${post.id}}" th:text="${post.title}"></a></h5>
+                <h5 class="card-title"><a th:href="@{/board/{id}(id=${post.id})}" th:text="${post.title}"></a></h5>
                 <div href="#" class="card-link" th:text="${post.userName}"></div>
                 <small class="text-muted" th:text="${post.createdAt}"></small>
             </div>
         </div>
     </div>
-
+    <!-- 페이징 -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 1} ? disabled">
+                <a th:if="${currentPage != null and currentPage > 1}" th:href="@{'/board/boardList?page=' + ${currentPage - 1} + '&size=' + ${pageSize}}">&lt;</a>
+            </li>
+            <li th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:class="${pageNum == currentPage} ? 'active'">
+                <a th:if="${pageNum != currentPage}" th:href="@{'/board/boardList?page=' + ${pageNum} + '&size=' + ${pageSize}}" th:text="${pageNum}"></a>
+                <span th:if="${pageNum == currentPage}" th:text="${pageNum}"></span>
+            </li>
+            <li th:if="${currentPage < totalPages}">
+                <a th:href="@{'/board/boardList?page=' + ${currentPage + 1} + '&size=' + ${pageSize}}" aria-label="Next">
+                    <span aria-hidden="true">></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <!-- 글 등록 버튼 -->
     <div th:if="${session.user != null}">
         <a th:onclick="|location.href='@{/board/newPost}'|" class="btn btn-primary">글 등록</a>

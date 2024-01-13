@@ -6,8 +6,18 @@
         insert into board (title,content,username,image_url,image_name,user_id,created_at)
         values (#{title},#{content},#{userName},#{imageUrl},#{imageName},#{userId},now())
     </insert>
-
     <select id="findAll" resultType="Board">
-        select id,title,content,username,created_at from board
+        select id,title,content,username,created_at as createdAt from board
+    </select>
+    <select id="findById" resultType="Board">
+        select * from board where id = #{id}
+    </select>
+    <select id="findPaginatedPosts" resultType="Board">
+        SELECT id,title,username,created_at as createdAt FROM board
+        ORDER BY created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="getTotalPosts" resultType="int">
+        SELECT COUNT(*) FROM board;
     </select>
 </mapper>
