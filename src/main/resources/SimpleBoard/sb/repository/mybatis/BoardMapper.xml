@@ -6,10 +6,8 @@
         insert into board (title,content,username,image_url,image_name,user_id,created_at)
         values (#{title},#{content},#{userName},#{imageUrl},#{imageName},#{userId},now())
     </insert>
-    <select id="findByUserName" resultType="User">
-        select id,username,user_pw
-        from users
-        where username=#{userName} and
-        user_pw = password(#{userPw})
+
+    <select id="findAll" resultType="Board">
+        select id,title,content,username,created_at from board
     </select>
 </mapper>

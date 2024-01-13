@@ -6,6 +6,7 @@ import SimpleBoard.sb.repository.BoardUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,8 +28,14 @@ public class MyBatisBoardRepository implements BoardRepository {
     public void delete(Long id) {
 
     }
+
     @Override
     public void update(Long id, BoardUpdateDto updateDto) {
 
+    }
+
+    @Override
+    public List<Board> findAll() {
+        return boardMapper.findAll();
     }
 }

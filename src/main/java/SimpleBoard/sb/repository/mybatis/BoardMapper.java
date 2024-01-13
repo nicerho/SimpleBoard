@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Savepoint;
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -15,8 +16,9 @@ public interface BoardMapper {
 
     Optional<Board> findById(@Param("id") Long id);
 
-    void update(@Param("id")Long id, BoardUpdateDto updateDto);
+    void update(@Param("id") Long id, BoardUpdateDto updateDto);
 
-    void delete(@Param("id")Long id);
+    void delete(@Param("id") Long id);
 
+    List<Board> findAll();
 }

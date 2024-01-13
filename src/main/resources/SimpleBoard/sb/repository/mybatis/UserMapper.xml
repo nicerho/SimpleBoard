@@ -6,6 +6,7 @@
         insert into users (username,user_pw,regdate)
         values (#{userName},password(#{userPw}),now())
     </insert>
+
     <select id="findByUserName" resultType="User">
         select id,username,user_pw
         from users

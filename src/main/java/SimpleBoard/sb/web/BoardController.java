@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -27,7 +28,10 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boardList")
-    public String test() {
+    public String boardList(Model model) {
+        List<Board> posts = boardService.findAll();
+        System.out.println(posts);
+        model.addAttribute("posts",posts);
         return "boardList";
     }
 
@@ -51,8 +55,6 @@ public class BoardController {
             return "redirect:/board/boardList";
         } else{
             try{
-                InetAddress inet = Inet4Address.getLocalHost();
-                String ip = inet.getHostAddress();
                 String host = "iup.cdn1.cafe24.com";
                 String user = "wjswjdgh123";
                 String pass = "qlalfqjsgh1@";
@@ -61,7 +63,6 @@ public class BoardController {
                 ftp.connect(host, port);
                 if(ftp.login(user,pass)){
                     ftp.setFileType(FTP.BINARY_FILE_TYPE);
-                    int replyCode = ftp.getReplyCode();
                     boolean result = ftp.storeFile("/www/img/" + uuid + "." + extension, image.getInputStream());
                     if(result){
                         board.setImageUrl("http://wjswjdgh123.cdn1.cafe24.com/img/"+uuid+"."+extension);
