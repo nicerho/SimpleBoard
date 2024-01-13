@@ -6,4 +6,10 @@
         insert into users (username,user_pw,regdate)
         values (#{userName},password(#{userPw}),now())
     </insert>
+    <select id="findByUserName" resultType="User">
+        select id,username,user_pw
+        from users
+        where username=#{userName} and
+        user_pw = password(#{userPw})
+    </select>
 </mapper>

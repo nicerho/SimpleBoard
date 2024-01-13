@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,11 +16,19 @@
             margin-bottom: 20px;
             width: 70%; /* 게시글 표시 부분의 너비 조절 */
         }
+        .user-info {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h2>전체 게시글 보기</h2>
+    <!-- 사용자 정보 출력 -->
+    <div class="user-info" th:if="${session.user != null}">
+        <p th:text="'안녕하세요, ' + ${session.user.userName} + '님'"></p>
+    </div>
 
     <!-- 게시글 리스트 영역 -->
     <div class="post-list">
@@ -37,6 +45,11 @@
 
         <!-- 다른 게시글 아이템도 동일하게 추가 가능 -->
 
+    </div>
+
+    <!-- 글 등록 버튼 -->
+    <div th:if="${session.user != null}">
+        <a href="/newPost" class="btn btn-primary">글 등록</a>
     </div>
 
 </div>

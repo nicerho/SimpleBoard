@@ -16,10 +16,9 @@ public class MyBatisUserRepository implements UserRepository {
         userMapper.save(user);
         return user;
     }
-
     @Override
-    public Optional<User> findByUserName(String userName) {
-        return Optional.empty();
+    public Optional<User> findByUserName(String userName,String userPw) {
+        return userMapper.findByUserName(userName,userPw);
     }
 
 
