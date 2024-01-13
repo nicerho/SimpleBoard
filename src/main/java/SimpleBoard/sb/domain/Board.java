@@ -11,5 +11,6 @@ public class Board {
     private Long userId;
     private String content;
     private String imageUrl;
+    private String imageName;
 
 }

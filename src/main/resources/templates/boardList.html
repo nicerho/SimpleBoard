@@ -49,7 +49,7 @@
 
     <!-- 글 등록 버튼 -->
     <div th:if="${session.user != null}">
-        <a href="/newPost" class="btn btn-primary">글 등록</a>
+        <a th:onclick="|location.href='@{/board/newPost}'|" class="btn btn-primary">글 등록</a>
     </div>
 
 </div>

@@ -11,8 +11,8 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User save(User user) {
-        return userRepository.save(user);
+    public void save(User user) {
+        userRepository.save(user);
     }
 
     public Optional<User> findByUserName(String userName, String userPw) {
