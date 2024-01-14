@@ -3,6 +3,7 @@ package SimpleBoard.sb.web;
 import SimpleBoard.sb.domain.Board;
 import SimpleBoard.sb.domain.User;
 import SimpleBoard.sb.service.BoardServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.net.ftp.FTP;
@@ -31,6 +32,7 @@ public class BoardController {
         List<Board> posts = boardService.findPaginatedPosts(page, size);
         int totalPosts = boardService.getTotalPosts();
         int totalPages = (int) Math.ceil((double) totalPosts / size);
+
         model.addAttribute("posts", posts);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -46,14 +48,16 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public String board(@PathVariable(name = "id") long id, Model model) {
+    public String board(@PathVariable(name = "id") long id, Model model,HttpSession session) {
         Optional<Board> boardOptional = boardService.findById(id);
         if (boardOptional.isEmpty()) {
             return "redirect:/board/boardList";
         }
         Board post = boardOptional.get();
         System.out.println(post);
-        return null;
+
+        model.addAttribute("post",post);
+        return "post";
     }
 
     @PostMapping("/createPost")
@@ -93,4 +97,5 @@ public class BoardController {
         }
         return "redirect:/board/boardList";
     }
+
 }

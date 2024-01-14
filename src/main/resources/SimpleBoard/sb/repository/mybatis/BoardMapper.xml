@@ -10,7 +10,7 @@
         select id,title,content,username,created_at as createdAt from board
     </select>
     <select id="findById" resultType="Board">
-        select * from board where id = #{id}
+        select id,title,content,username as userName,image_url as imageUrl,image_name as imageName,created_at as createdAt,user_id as userId from board where id = #{id}
     </select>
     <select id="findPaginatedPosts" resultType="Board">
         SELECT id,title,username,created_at as createdAt FROM board
