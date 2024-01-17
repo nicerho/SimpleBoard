@@ -2,6 +2,7 @@ package SimpleBoard.sb.service;
 
 import SimpleBoard.sb.domain.Board;
 import SimpleBoard.sb.repository.BoardRepository;
+import SimpleBoard.sb.repository.BoardUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,12 @@ public class BoardServiceImpl implements BoardService{
         int offset = (page - 1) * size;
         return boardRepository.findPaginatedPosts(size,offset);
     }
+
+    @Override
+    public void update(Long id, BoardUpdateDto updateDto) {
+        boardRepository.update(id,updateDto);
+    }
+
     public int getTotalPosts() {
         return boardRepository.getTotalPosts();
     }

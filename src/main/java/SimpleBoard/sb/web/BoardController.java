@@ -2,6 +2,7 @@ package SimpleBoard.sb.web;
 
 import SimpleBoard.sb.domain.Board;
 import SimpleBoard.sb.domain.User;
+import SimpleBoard.sb.repository.BoardUpdateDto;
 import SimpleBoard.sb.service.BoardServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -96,6 +97,23 @@ public class BoardController {
             }
         }
         return "redirect:/board/boardList";
+    }
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable(name = "id") long id,Model model,HttpSession session){
+        Optional<Board> boardOptional = boardService.findById(id);
+        if (boardOptional.isEmpty()) {
+            return "redirect:/board/boardList";
+        }
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
+        Board post = boardOptional.get();
+        model.addAttribute("post",post);
+        return "editPost";
+    }
+    @PostMapping("/{id}/editPost")
+    public String editPost(@PathVariable(name = "id") long id, BoardUpdateDto updateDto){
+        boardService.update(id,updateDto);
+        return "redirect:/board/{id}";
     }
 
 }

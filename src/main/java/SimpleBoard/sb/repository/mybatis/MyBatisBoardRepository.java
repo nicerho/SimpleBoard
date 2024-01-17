@@ -31,7 +31,7 @@ public class MyBatisBoardRepository implements BoardRepository {
 
     @Override
     public void update(Long id, BoardUpdateDto updateDto) {
-
+        boardMapper.update(id,updateDto);
     }
 
     @Override

@@ -20,4 +20,10 @@
     <select id="getTotalPosts" resultType="int">
         SELECT COUNT(*) FROM board;
     </select>
+    <update id="update">
+        update board
+        set title=#{updateDto.title},
+        content=#{updateDto.content}
+        where id = #{id}
+    </update>
 </mapper>

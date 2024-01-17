@@ -16,7 +16,7 @@ public interface BoardMapper {
 
     Optional<Board> findById(@Param("id") Long id);
 
-    void update(@Param("id") Long id, BoardUpdateDto updateDto);
+    void update(@Param("id") Long id, @Param("updateDto")BoardUpdateDto updateDto);
 
     void delete(@Param("id") Long id);
 
