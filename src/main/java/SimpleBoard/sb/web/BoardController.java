@@ -61,6 +61,10 @@ public class BoardController {
         if (boardOptional.isEmpty()) {
             return "redirect:/board/boardList";
         }
+        for (Comment comment : comments) {
+            List<Reply> replies = replyService.findAllReply(id, comment.getId());
+            comment.setReplies(replies);
+        }
         Board post = boardOptional.get();
         System.out.println(comments);
         model.addAttribute("comments", comments);

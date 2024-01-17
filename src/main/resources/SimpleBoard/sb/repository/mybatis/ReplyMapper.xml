@@ -7,7 +7,9 @@
         values(#{userName},#{content},now(),${commentId},${boardId});
     </insert>
 
-    <delete id="commentDelete">
-        delete from comments where id = ${id}
-    </delete>
+    <select id="findAll">
+        select * from reply
+        where  board_id = #{boardId} and
+        comment_id = #{commentId}
+    </select>
 </mapper>

@@ -14,7 +14,7 @@ public class MyBatisReplyRepository implements ReplyRepository {
 
     @Override
     public void replyInsert(Reply reply) {
-
+        replyMapper.replyInsert(reply);
     }
 
     @Override
