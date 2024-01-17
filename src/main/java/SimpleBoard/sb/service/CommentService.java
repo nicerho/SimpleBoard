@@ -8,5 +8,5 @@ import java.util.List;
 public interface CommentService {
     void commentInsert(Comment comment);
     void commentDelete(Long id);
-    List<Comment> findAll();
+    List<Comment> findAll(Long boardId);
 }

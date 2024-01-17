@@ -2,6 +2,7 @@ package SimpleBoard.sb.config;
 
 import SimpleBoard.sb.repository.BoardRepository;
 import SimpleBoard.sb.repository.CommentRepository;
+import SimpleBoard.sb.repository.ReplyRepository;
 import SimpleBoard.sb.repository.UserRepository;
 import SimpleBoard.sb.repository.mybatis.*;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ public class MyBatisConfig {
     private final UserMapper userMapper;
     private final BoardMapper boardMapper;
     private final CommentMapper commentMapper;
+    private final ReplyMapper replyMapper;
 
     public UserRepository userRepository() {
         return new MyBatisUserRepository(userMapper);
@@ -24,6 +26,9 @@ public class MyBatisConfig {
 
     public CommentRepository commentRepository() {
         return new MybatisCommentRepository(commentMapper);
+    }
+    public ReplyRepository repository() {
+        return new MyBatisReplyRepository(replyMapper);
     }
 
 }

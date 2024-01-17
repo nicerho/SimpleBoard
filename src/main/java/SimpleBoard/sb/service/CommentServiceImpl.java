@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<Comment> findAll() {
-        return commentRepository.findAll();
+    public List<Comment> findAll(Long boardId) {
+        return commentRepository.findAll(boardId);
     }
 }

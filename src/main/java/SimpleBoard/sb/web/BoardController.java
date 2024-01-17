@@ -2,10 +2,12 @@ package SimpleBoard.sb.web;
 
 import SimpleBoard.sb.domain.Board;
 import SimpleBoard.sb.domain.Comment;
+import SimpleBoard.sb.domain.Reply;
 import SimpleBoard.sb.domain.User;
 import SimpleBoard.sb.repository.BoardUpdateDto;
 import SimpleBoard.sb.service.BoardServiceImpl;
 import SimpleBoard.sb.service.CommentServiceImpl;
+import SimpleBoard.sb.service.ReplyServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ import java.util.UUID;
 public class BoardController {
     private final BoardServiceImpl boardService;
     private final CommentServiceImpl commentService;
+    private final ReplyServiceImpl replyService;
 
     @GetMapping("/boardList")
     public String boardList(@RequestParam(name = "page", defaultValue = "1") int page,
@@ -54,7 +57,7 @@ public class BoardController {
     @GetMapping("/{id}")
     public String board(@PathVariable(name = "id") long id, Model model, HttpSession session) {
         Optional<Board> boardOptional = boardService.findById(id);
-        List<Comment> comments = commentService.findAll();
+        List<Comment> comments = commentService.findAll(id);
         if (boardOptional.isEmpty()) {
             return "redirect:/board/boardList";
         }
@@ -130,15 +133,22 @@ public class BoardController {
 
     @PostMapping("/{id}/addComment")
     public String addComment(@PathVariable(name = "id") long id, Comment comment) {
-        System.out.println(comment);
         commentService.commentInsert(comment);
         return "redirect:/board/{id}";
     }
 
     @PostMapping("/{id}/deleteComment/{commentId}")
     public String deleteComment(@PathVariable(name = "id") long id, @PathVariable(name = "commentId") long commentId) {
-        System.out.println("id = "+id+"commentId = "+commentId);
+
         commentService.commentDelete(commentId);
         return "redirect:/board/{id}";
+    }
+    @PostMapping("{boardId}/{commentId}/addReply")
+    public String addReply(@PathVariable(name = "boardId") long boardId,
+                           @PathVariable(name = "commentId") long commentId,
+                           Reply reply){
+        System.out.println(reply);
+        replyService.replyInsert(reply);
+        return "redirect:/board/{boardId}";
     }
 }

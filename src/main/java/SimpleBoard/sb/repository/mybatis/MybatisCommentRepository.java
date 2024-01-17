@@ -23,8 +23,10 @@ public class MybatisCommentRepository implements CommentRepository {
         commentMapper.commentDelete(id);
     }
 
+
+
     @Override
-    public List<Comment> findAll() {
-        return commentMapper.findAll();
+    public List<Comment> findAll(Long boardId) {
+        return commentMapper.findAll(boardId);
     }
 }

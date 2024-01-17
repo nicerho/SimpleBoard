@@ -57,6 +57,24 @@
           <button type="submit" class="btn btn-sm btn-danger">댓글 삭제</button>
         </form>
       </div>
+      <button type="button" class="btn btn-primary" id="showReplyFormBtn">대댓글 작성</button>
+      <!-- 대댓글 작성 폼 -->
+      <form th:action="@{'/board/' + ${post.id} + '/' + ${comment.id} + '/addReply'}" method="post" class="mt-2" id="replyForm" style="display: none;">
+      <div class="form-row">
+          <div class="col-md-12 mb-3">
+            <label for="replyAuthor">작성자</label>
+            <input type="text" name="userName" id="replyAuthor" th:value="${session.user.userName}" class="form-control" required readonly>
+          </div>
+          <div class="col-md-12 mb-3">
+            <label for="replyText">대댓글 내용</label>
+            <textarea name="content" id="replyText" class="form-control" rows="3" required></textarea>
+          </div>
+        </div>
+        <input type="hidden" id="commentId" name="commentId" th:value="${comment.id}">
+        <input type="hidden" id="bd" name="boardId" th:value="${post.id}">
+        <input type="hidden" id="replyUserName" name="userId" th:value="${session.user.id}">
+        <button type="submit" class="btn btn-primary">대댓글 등록</button>
+      </form>
     </div>
   </div>
 </div>
@@ -65,6 +83,15 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script>
+    document.getElementById('showReplyFormBtn').addEventListener('click', function () {
+        var replyForm = document.getElementById('replyForm');
+        if (replyForm.style.display === 'none') {
+            replyForm.style.display = 'block';
+        } else {
+            replyForm.style.display = 'none';
+        }
+    });
+</script>
 </body>
 </html>
