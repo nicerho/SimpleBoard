@@ -26,7 +26,7 @@ public class MyBatisBoardRepository implements BoardRepository {
 
     @Override
     public void delete(Long id) {
-
+    boardMapper.delete(id);
     }
 
     @Override

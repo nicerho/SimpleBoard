@@ -13,4 +13,5 @@ public interface BoardService {
     List<Board> findPaginatedPosts(int page, int size);
     void update(Long id, BoardUpdateDto updateDto);
     int getTotalPosts();
+    void delete(Long id);
 }

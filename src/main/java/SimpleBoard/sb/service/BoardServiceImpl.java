@@ -44,4 +44,9 @@ public class BoardServiceImpl implements BoardService{
     public int getTotalPosts() {
         return boardRepository.getTotalPosts();
     }
+
+    @Override
+    public void delete(Long id) {
+        boardRepository.delete(id);
+    }
 }

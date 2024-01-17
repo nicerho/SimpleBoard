@@ -26,4 +26,7 @@
         content=#{updateDto.content}
         where id = #{id}
     </update>
+    <delete id="delete">
+        delete from board where id = #{id}
+    </delete>
 </mapper>
