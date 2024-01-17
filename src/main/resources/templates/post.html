@@ -17,7 +17,7 @@
   </div>
   <p th:text="${post.content}"></p>
   <a th:href="@{/board/boardList}" class="btn btn-warning">목록</a>
-  <!-- 게시글 수정 및 삭제 버튼 (작성자만 보임) -->
+  <!-- 게시글 수정 및 삭제 버튼  -->
   <div th:if="${session.user.userName != null and session.user.userName == post.userName}" class="d-flex justify-content-between align-items-center mt-3">
     <a th:href="@{'/board/' + ${post.id} + '/edit'}" class="btn btn-warning mr-2">수정</a>
     <form th:action="@{'/board/' + ${post.id} + '/delete'}" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
@@ -50,7 +50,7 @@
       <p><strong th:text="${comment.userName}"></strong></p>
       <p th:text="${comment.commentText}"></p>
       <p th:text="${comment.createdAt}"></p>
-      <!-- 댓글 삭제 버튼 (댓글 작성자에게만 보임) -->
+      <!-- 댓글 삭제 버튼  -->
       <div th:if="${session.user.userName != null and session.user.userName == comment.userName}">
         <form th:action="@{'/board/' + ${post.id} + '/deleteComment/' + ${comment.id}}" method="post" onsubmit="return confirm('댓글을 삭제하시겠습니까?');">
           <input type="hidden" name="_method" value="post"/>
@@ -63,12 +63,13 @@
           <p><strong th:text="${reply.userName}"></strong></p>
           <p th:text="${reply.content}"></p>
           <p th:text="${reply.createdAt}"></p>
-        </div>
-        <button type="button" class="btn btn-primary" id="showReplyFormBtn">대댓글 작성</button>
-      </div>
 
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary showReplyFormBtn" id="showReplyFormBtn" th:data-comment-id="${comment.id}">대댓글 작성</button>
       <!-- 대댓글 작성 폼 -->
-      <form th:action="@{'/board/' + ${post.id} + '/' + ${comment.id} + '/addReply'}" method="post" class="mt-2" id="replyForm" style="display: none;">
+      <form th:action="@{'/board/' + ${post.id} + '/' + ${comment.id} + '/addReply'}" method="post" class="mt-2" th:id="'replyForm-' + ${comment.id}" style="display: none;">
+
       <div class="form-row">
           <div class="col-md-12 mb-3">
             <label for="replyAuthor">작성자</label>
@@ -88,19 +89,27 @@
   </div>
 </div>
 
-<!-- 부트스트랩 스크립트 링크 추가 -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    document.getElementById('showReplyFormBtn').addEventListener('click', function () {
-        var replyForm = document.getElementById('replyForm');
-        if (replyForm.style.display === 'none') {
-            replyForm.style.display = 'block';
-        } else {
-            replyForm.style.display = 'none';
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    var buttons = document.querySelectorAll('.showReplyFormBtn');
+
+    buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var formId = 'replyForm-' + button.getAttribute('data-comment-id');
+            var form = document.getElementById(formId);
+
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        });
     });
+});
 </script>
 </body>
 </html>
