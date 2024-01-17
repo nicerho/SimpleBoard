@@ -16,11 +16,10 @@
     <img th:src="${post.imageUrl}" alt="" style="width: 300px; height: 200px;" class="mb-3">
   </div>
   <p th:text="${post.content}"></p>
-
+  <a th:href="@{/board/boardList}" class="btn btn-warning">목록</a>
   <!-- 게시글 수정 및 삭제 버튼 (작성자만 보임) -->
   <div th:if="${session.user.userName != null and session.user.userName == post.userName}" class="d-flex justify-content-between align-items-center mt-3">
-    <a th:href="@{/board/boardList}" class="btn btn-warning">목록</a>
-    <a th:href="@{'/board/' + ${post.id} + '/edit'}" class="btn btn-warning">수정</a>
+    <a th:href="@{'/board/' + ${post.id} + '/edit'}" class="btn btn-warning mr-2">수정</a>
     <form th:action="@{'/board/' + ${post.id} + '/delete'}" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
       <input type="hidden" name="_method" value="post"/>
       <button type="submit" class="btn btn-danger">삭제</button>
@@ -28,18 +27,19 @@
   </div>
 
   <!-- 댓글 입력 폼 -->
-  <form th:action="@{/addComment}" method="post" class="mt-4">
+  <form th:action="@{'/board/' + ${post.id} + '/addComment'}" method="post" class="mt-4">
     <div class="form-row">
-      <div class="col-md-4 mb-3">
-        <label for="commentAuthor">작성자</label>
-        <input type="text" name="author" id="commentAuthor" class="form-control" required>
+      <div class="col-md-12 mb-3">
+        <label for="userName">작성자</label>
+        <input type="text" name="userName" id="userName" th:value="${session.user.userName}" class="form-control" required readonly>
       </div>
-      <div class="col-md-8 mb-3">
-        <label for="commentContent">댓글 내용</label>
-        <textarea name="content" id="commentContent" class="form-control" rows="3" required></textarea>
+      <div class="col-md-12 mb-3">
+        <label for="commentText">댓글 내용</label>
+        <textarea name="commentText" id="commentText" class="form-control" rows="3" required></textarea>
       </div>
     </div>
-    <input type="hidden" id="postId" name="postId" th:value="${post.id}">
+    <input type="hidden" id="boardId" name="boardId" th:value="${post.id}">
+    <input type="hidden" id="userId" name="userId" th:value="${session.user.id}">
     <button type="submit" class="btn btn-primary">댓글 작성</button>
   </form>
 
@@ -47,12 +47,11 @@
   <div class="mt-4" th:if="${comments != null}">
     <h3>댓글 목록</h3>
     <div th:each="comment : ${comments}" class="border p-3 mb-3">
-      <p><strong th:text="${comment.author}"></strong></p>
-      <p th:text="${comment.content}"></p>
-      <p th:text="${comment.date}"></p>
-
+      <p><strong th:text="${comment.userName}"></strong></p>
+      <p th:text="${comment.commentText}"></p>
+      <p th:text="${comment.createdAt}"></p>
       <!-- 댓글 삭제 버튼 (댓글 작성자에게만 보임) -->
-      <div th:if="${session.user.userName != null and session.user.userName == comment.author}">
+      <div th:if="${session.user.userName != null and session.user.userName == comment.userName}">
         <a th:href="@{/deleteComment/{commentId}(commentId=${comment.id})}" class="btn btn-sm btn-danger">댓글 삭제</a>
       </div>
     </div>

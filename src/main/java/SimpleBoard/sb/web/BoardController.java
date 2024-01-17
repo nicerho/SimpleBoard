@@ -1,9 +1,11 @@
 package SimpleBoard.sb.web;
 
 import SimpleBoard.sb.domain.Board;
+import SimpleBoard.sb.domain.Comment;
 import SimpleBoard.sb.domain.User;
 import SimpleBoard.sb.repository.BoardUpdateDto;
 import SimpleBoard.sb.service.BoardServiceImpl;
+import SimpleBoard.sb.service.CommentServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import java.util.UUID;
 @RequestMapping("/board")
 public class BoardController {
     private final BoardServiceImpl boardService;
+    private final CommentServiceImpl commentService;
 
     @GetMapping("/boardList")
     public String boardList(@RequestParam(name = "page", defaultValue = "1") int page,
@@ -51,12 +54,13 @@ public class BoardController {
     @GetMapping("/{id}")
     public String board(@PathVariable(name = "id") long id, Model model,HttpSession session) {
         Optional<Board> boardOptional = boardService.findById(id);
+        List<Comment> comments = commentService.findAll();
         if (boardOptional.isEmpty()) {
             return "redirect:/board/boardList";
         }
         Board post = boardOptional.get();
-        System.out.println(post);
-
+        System.out.println(comments);
+        model.addAttribute("comments",comments);
         model.addAttribute("post",post);
         return "post";
     }
@@ -119,5 +123,11 @@ public class BoardController {
     public String deletePost(@PathVariable(name = "id") long id){
         boardService.delete(id);
         return "redirect:/board/boardList";
+    }
+    @PostMapping("/{id}/addComment")
+    public String addComment(@PathVariable(name = "id") long id, Comment comment){
+        System.out.println(comment);
+        commentService.commentInsert(comment);
+        return "redirect:/board/{id}";
     }
 }

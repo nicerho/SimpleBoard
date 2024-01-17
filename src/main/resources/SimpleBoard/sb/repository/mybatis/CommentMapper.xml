@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SimpleBoard.sb.repository.mybatis.CommentMapper">
+    <insert id="commentInsert" useGeneratedKeys="true" keyProperty="id">
+        insert into comments (username,comment_text,created_at,board_id,user_id)
+        values (#{userName},#{commentText},now(),${boardId},${userId})
+    </insert>
+    <select id="findAll" resultType="Comment">
+        select id,
+        username as userName,
+        comment_text as commentText,
+        created_at as createdAt,
+        board_id as boardId,
+        user_id as userId
+        from comments
+    </select>
+</mapper>
