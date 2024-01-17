@@ -15,4 +15,7 @@
         user_id as userId
         from comments
     </select>
+    <delete id="commentDelete">
+        delete from comments where id = ${id}
+    </delete>
 </mapper>

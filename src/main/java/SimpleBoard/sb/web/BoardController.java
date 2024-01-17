@@ -52,7 +52,7 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public String board(@PathVariable(name = "id") long id, Model model,HttpSession session) {
+    public String board(@PathVariable(name = "id") long id, Model model, HttpSession session) {
         Optional<Board> boardOptional = boardService.findById(id);
         List<Comment> comments = commentService.findAll();
         if (boardOptional.isEmpty()) {
@@ -60,8 +60,8 @@ public class BoardController {
         }
         Board post = boardOptional.get();
         System.out.println(comments);
-        model.addAttribute("comments",comments);
-        model.addAttribute("post",post);
+        model.addAttribute("comments", comments);
+        model.addAttribute("post", post);
         return "post";
     }
 
@@ -102,8 +102,9 @@ public class BoardController {
         }
         return "redirect:/board/boardList";
     }
+
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable(name = "id") long id,Model model,HttpSession session){
+    public String edit(@PathVariable(name = "id") long id, Model model, HttpSession session) {
         Optional<Board> boardOptional = boardService.findById(id);
         if (boardOptional.isEmpty()) {
             return "redirect:/board/boardList";
@@ -111,23 +112,33 @@ public class BoardController {
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         Board post = boardOptional.get();
-        model.addAttribute("post",post);
+        model.addAttribute("post", post);
         return "editPost";
     }
+
     @PostMapping("/{id}/editPost")
-    public String editPost(@PathVariable(name = "id") long id, BoardUpdateDto updateDto){
-        boardService.update(id,updateDto);
+    public String editPost(@PathVariable(name = "id") long id, BoardUpdateDto updateDto) {
+        boardService.update(id, updateDto);
         return "redirect:/board/{id}";
     }
+
     @PostMapping("/{id}/delete")
-    public String deletePost(@PathVariable(name = "id") long id){
+    public String deletePost(@PathVariable(name = "id") long id) {
         boardService.delete(id);
         return "redirect:/board/boardList";
     }
+
     @PostMapping("/{id}/addComment")
-    public String addComment(@PathVariable(name = "id") long id, Comment comment){
+    public String addComment(@PathVariable(name = "id") long id, Comment comment) {
         System.out.println(comment);
         commentService.commentInsert(comment);
+        return "redirect:/board/{id}";
+    }
+
+    @PostMapping("/{id}/deleteComment/{commentId}")
+    public String deleteComment(@PathVariable(name = "id") long id, @PathVariable(name = "commentId") long commentId) {
+        System.out.println("id = "+id+"commentId = "+commentId);
+        commentService.commentDelete(commentId);
         return "redirect:/board/{id}";
     }
 }

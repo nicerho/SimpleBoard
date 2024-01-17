@@ -20,7 +20,7 @@ public class MybatisCommentRepository implements CommentRepository {
 
     @Override
     public void commentDelete(Long id) {
-
+        commentMapper.commentDelete(id);
     }
 
     @Override
